@@ -1,0 +1,28 @@
+# Dependencies (dist/ IS committed on purpose: the console must run on a phone
+# without node, via ./run.sh --no-build)
+node_modules/
+*.tsbuildinfo
+
+# Local state the console creates at runtime
+.hermes-web/
+*.log
+
+# Secrets and machine-specific config. The console reads these from
+# ~/.hermes/ and never copies them here, but ignore them anyway so a stray
+# file can never be committed by accident.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+token*.json
+config.yaml
+*.bak-console-*
+
+# Editor and OS noise
+.DS_Store
+.vscode/
+.idea/
+__pycache__/
+*.pyc
