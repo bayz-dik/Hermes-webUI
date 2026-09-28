@@ -1,4 +1,4 @@
-# Hermes Console
+# Hermes WebUI
 
 A local web console for this Hermes install. Open a browser, get the agent,
 the skills, the plugins, the sessions, and the cron jobs. No terminal needed
@@ -138,35 +138,3 @@ agent run. Override with `HERMES_WEB_HOME`.
 - **Plugin list needs the CLI.** It comes from `hermes plugins list --json`,
   which takes ~15s. Manifests are read from disk first so the view is instant,
   and the CLI result is cached for minutes to confirm it.
-
-## Troubleshooting
-
-| Symptom | Cause and fix |
-|---|---|
-| `dist/ is missing` | Run `./run.sh` once, or `npm install && npm run build`. |
-| Chat says `'hermes' not found on PATH` | The server could not find the CLI. Start it from a shell where `which hermes` works. |
-| Everything shows "server unreachable" | The server stopped. Restart `./run.sh`; find a stray one with `pgrep -af server.py`. |
-| Activity view is empty | The feed comes from the `live-activity` plugin. Enable it: `hermes plugins enable live-activity`. |
-| Skills list looks stale | It is cached for 30 seconds. Press Reload. |
-| Cron is empty | No jobs are scheduled. `hermes cron list` confirms; create one with `hermes cron create`. |
-| Port already in use | `./run.sh --port 8899`, or stop the old one. |
-
-## Tests
-
-```
-$ python3 tests/test_api.py
-35 passed, 0 failed
-```
-
-The API test covers the token guard, the foreign-Origin refusal, path traversal,
-missing and malformed input, and asserts that skill, session, and tool payloads
-carry real content rather than placeholder shapes.
-
-```
-$ python3 tests/test_chat_e2e.py
-15 passed, 0 failed
-```
-
-The end-to-end test starts a real agent run through the HTTP API, follows the
-SSE stream, checks the reply, then confirms the transcript landed in the session
-store and that a second turn reuses the same session.
